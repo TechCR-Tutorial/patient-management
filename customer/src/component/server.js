@@ -24,6 +24,11 @@ class BackendService {
         return axios.get(url)
     }
 
+    registerForDay(patientId, date) {
+        var url = `${BASE_URL}/daily/${patientId}/${date}`
+        return axios.get(url)
+    }
+
     addPatient(patient) {
         var url = `${BASE_URL}`
         return axios.post(url, patient)

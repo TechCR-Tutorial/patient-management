@@ -45,17 +45,17 @@ export default class Report extends Component {
         return (
             <div>
                 <br />
-                <h3>Find Pation</h3>
+                <h3>Patient Report</h3>
                 <br />
                 <form>
                     <div className="form-row">
                         <div className="form-group col-md-4">
                             <label >{`From  Date `}</label>
-                            <DatePicker className="form-control" selected={this.state.startDate} onChange={this.onChangeFromDate} />
+                            <div> <DatePicker className="form-control" selected={this.state.startDate} onChange={this.onChangeFromDate} /> </div> 
                         </div>
                         <div className="form-group col-md-4">
                             <label >To Date</label>
-                            <DatePicker className="form-control" selected={this.state.toDate} onChange={this.onChangeToDate} />
+                            <div><DatePicker className="form-control" selected={this.state.toDate} onChange={this.onChangeToDate} /> </div>
                         </div>
                     </div>
 

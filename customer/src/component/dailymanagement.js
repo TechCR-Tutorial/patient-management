@@ -121,7 +121,7 @@ export default class DailyManagement extends Component {
         return (
             <div>
                 <br />
-                <h3>Find Pation</h3>
+                <h3>Register Patient</h3>
                 <br />
                 <form onSubmit={this.onSubmit}>
                     <div className="form-row">

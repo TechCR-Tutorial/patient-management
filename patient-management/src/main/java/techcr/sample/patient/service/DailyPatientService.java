@@ -21,8 +21,12 @@ public class DailyPatientService {
     private PatientManagementService patientManagementService;
 
     public void registerForToday(Long patientId) {
+        registerForDay(patientId, new Date());
+    }
+
+    public void registerForDay(Long patientId, Date date) {
         DailyPatient dailyPatient = new DailyPatient();
-        dailyPatient.setDate(new Date());
+        dailyPatient.setDate(date);
         Optional<Patient> patient = patientManagementService.findByID(patientId);
         patient.ifPresent(dailyPatient::setPatient);
         dailyPatientRepository.save(dailyPatient);

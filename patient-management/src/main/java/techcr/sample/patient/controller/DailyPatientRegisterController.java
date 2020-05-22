@@ -1,5 +1,6 @@
 package techcr.sample.patient.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,12 @@ public class DailyPatientRegisterController {
     @GetMapping("/daily/{id}")
     public ResponseEntity registerToday(@PathVariable Long id) {
         dailyPatientService.registerForToday(id);
+        return ResponseEntity.ok("Added");
+    }
+
+    @GetMapping("/daily/{id}/{date}")
+    public ResponseEntity registerDay(@PathVariable Long id, @PathVariable Date date) {
+        dailyPatientService.registerForDay(id, date);
         return ResponseEntity.ok("Added");
     }
 
