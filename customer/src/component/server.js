@@ -8,8 +8,9 @@ class BackendService {
         var phoneNo = !patient.phoneNo ? "*" : patient.phoneNo
         var firstName = !patient.firstName ? "*" : patient.firstName
         var lastName = !patient.lastName ? "*" : patient.lastName
+        var address = !patient.address ? "*" : patient.address
 
-        var getURL = `${BASE_URL}/${phoneNo}/${firstName}/${lastName}`
+        var getURL = `${BASE_URL}/${phoneNo}/${firstName}/${lastName}/${address}`
         console.log(`Search URL ${getURL}`)
         return axios.get(getURL)
     }
@@ -37,6 +38,11 @@ class BackendService {
     reports(report) {
         var url = `${BASE_URL}/reports`
         return axios.post(url, report)
+    }
+
+    deleteDayPatient(dayPatientId) {
+        var url = `${BASE_URL}/reports/${dayPatientId}`
+        return axios.delete(url)
     }
 }
 

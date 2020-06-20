@@ -43,4 +43,8 @@ public class DailyPatientService {
     public List<DailyPatient> findForReport(Report report) {
         return dailyPatientRepository.findForReport(report.getStartDate(), report.getEndDate());
     }
+
+    public void deleteRegisterEntry(Long id) {
+        dailyPatientRepository.deleteById(id);
+    }
 }

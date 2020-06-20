@@ -11,6 +11,10 @@ import techcr.sample.patient.model.Patient;
 @Repository
 public interface PatientManagementRepository extends CrudRepository<Patient, Long> {
 
-    @Query("select p from Patient p where p.phoneNo like ?1% or p.firstName like %?2% or p.lastName like %?3%")
-    List<Patient> findByDetails(String phoneNo, String firstName, String lastName);
+    @Query(
+        value =   "select * "
+                + "from PATIENT p "
+                + "where p.PHONE_NO like %?1% and p.FIRST_NAME like %?2% and p.LAST_NAME like %?3% and p.ADDRESS like %?4%",
+        nativeQuery = true)
+    List<Patient> findByDetails(String phoneNo, String firstName, String lastName, String address);
 }

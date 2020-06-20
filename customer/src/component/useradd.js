@@ -26,13 +26,14 @@ export default class UserAdd extends Component {
 
     validateState(search) {
         this.setState({ addedStatus: false })
-        if (search) {
+        if ( this.state.firstName.length > 3 || this.state.lastName.length >= 3 
+            || this.state.phoneNo.length >= 5 || this.state.address.length >= 3) {
             this.search()
         } else {
             this.setState({
                 patients: [],
             })
-        }
+        } 
     }
 
     onChangeFirstName = (e) => {
@@ -56,7 +57,7 @@ export default class UserAdd extends Component {
     onChangeAddress = (e) => {
         this.setState({
             address: e.target.value
-        }, () => this.validateState())
+        }, () => this.validateState(this.state.address.length > 3))
     }
 
     onChangeDate = (date) => {
@@ -124,7 +125,8 @@ export default class UserAdd extends Component {
         const patient = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
-            phoneNo: this.state.phoneNo
+            phoneNo: this.state.phoneNo,
+            address: this.state.address
         }
         console.log(patient);
         server.searchPatients(patient)
@@ -153,7 +155,7 @@ export default class UserAdd extends Component {
                     <div className="form-row">
                         <div className="form-group col-md-4">
                             <label >Phone Number</label>
-                            <input type="text" pattern="\d*" maxLength="10" minLength="10" required className="form-control"
+                            <input type="text" pattern="\d*" maxLength="10" minLength="10" className="form-control"
                                 placeholder="Phone Number" value={this.state.phoneNo} onChange={this.onChangePhoneNo} />
                         </div>
                         <div className="form-group col-md-4">
@@ -163,7 +165,7 @@ export default class UserAdd extends Component {
                         </div>
                         <div className="form-group col-md-4">
                             <label >Last Name</label>
-                            <input type="text" required className="form-control" placeholder="Last Name" minLength="4"
+                            <input type="text" className="form-control" placeholder="Last Name" minLength="4"
                                 value={this.state.lastName} onChange={this.onChangeLasttName} />
                         </div>
                     </div>
