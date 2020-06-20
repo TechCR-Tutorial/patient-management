@@ -22,9 +22,10 @@ export default class DailyManagement extends Component {
         }
     }
 
-    validateState(search) {
-        this.setState({message: ''})
-        if (search) {
+    validateState() {
+        this.setState({ message: '' })
+        if (this.state.firstName.length > 3 || this.state.lastName.length >= 3 
+                || this.state.phoneNo.length >= 5 || this.state.address.length >= 3) {
             this.search()
         } else {
             this.setState({ patients: [] })
@@ -35,32 +36,32 @@ export default class DailyManagement extends Component {
 
         this.setState({
             firstName: e.target.value
-        }, () => this.validateState(this.state.firstName.length > 3))
+        }, () => this.validateState())
 
     }
 
     onChangeLasttName = (e) => {
         this.setState({
             lastName: e.target.value
-        }, () => this.validateState(this.state.lastName.length >= 3))
+        }, () => this.validateState())
     }
 
     onChangePhoneNo = (e) => {
         this.setState({
             phoneNo: e.target.value
-        }, () => this.validateState(this.state.phoneNo.length >= 5))
+        }, () => this.validateState())
     }
 
     onChangeAddress = (e) => {
         this.setState({
             address: e.target.value
-        })
+        }, () => this.validateState())
     }
 
     markForToday = (patientId) => {
         Server.registerForToday(patientId)
             .then(response => {
-                this.setState({message : this.REGISTERD})
+                this.setState({ message: this.REGISTERD })
                 this.clearFields()
             })
     }
@@ -69,7 +70,8 @@ export default class DailyManagement extends Component {
         const patient = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
-            phoneNo: this.state.phoneNo
+            phoneNo: this.state.phoneNo,
+            address: this.state.address
         }
         console.log(patient);
         Server.searchPatients(patient)
@@ -100,16 +102,16 @@ export default class DailyManagement extends Component {
         }
         Server.addPatientAndRegisterForToday(patient)
             .then(response => {
-                this.setState({ 
+                this.setState({
                     recordsFound: false,
                     message: this.ADDED_AND_REGISTERD
-                 })
-                 this.clearFields()
+                })
+                this.clearFields()
             })
     }
 
     clearFields = () => {
-        this.setState( {
+        this.setState({
             firstName: '',
             lastName: '',
             address: '',
@@ -127,7 +129,7 @@ export default class DailyManagement extends Component {
                     <div className="form-row">
                         <div className="form-group col-md-4">
                             <label >Phone Number</label>
-                            <input type="text" pattern="\d*" maxLength="10" minLength="10" required className="form-control"
+                            <input type="number" pattern="[0-9]+" maxLength="10" minLength="10" className="form-control"
                                 placeholder="Phone Number" value={this.state.phoneNo} onChange={this.onChangePhoneNo} />
                         </div>
                         <div className="form-group col-md-4">
@@ -137,26 +139,28 @@ export default class DailyManagement extends Component {
                         </div>
                         <div className="form-group col-md-4">
                             <label >Last Name</label>
-                            <input type="text" required className="form-control" placeholder="Last Name" minLength="4"
+                            <input type="text" className="form-control" placeholder="Last Name" minLength="4"
                                 value={this.state.lastName} onChange={this.onChangeLasttName} />
                         </div>
                     </div>
-                    {this.state.recordsFound &&
-                        <div><div className="form-group">
+
+                    <div>
+                        <div className="form-group">
                             <label >Address</label>
                             <input type="text" required className="form-control" placeholder="Address" minLength="4"
                                 value={this.state.address} onChange={this.onChangeAddress} />
                         </div>
+                        {this.state.recordsFound &&
                             <div className="form-row">
                                 <div className="form-group col-md-2">
                                     <input type="submit" value="Register And Mark" className="btn  btn-secondary" />
                                 </div>
                             </div>
+                        }
+                    </div>
 
-                        </div>
 
-                    }
-                    {this.state.message && <div className="alert alert-success"> {this.state.message}</div> }
+                    {this.state.message && <div className="alert alert-success"> {this.state.message}</div>}
 
                 </form>
                 <br />
@@ -182,7 +186,8 @@ export default class DailyManagement extends Component {
                                         <th scope="col"> {patient.lastName} </th>
                                         <th scope="col"> {patient.address} </th>
                                         <th scope="col"> <button className="btn btn-secondary"
-                                            onClick={() => this.markForToday(patient.id)}> Mark </button> </th>
+                                            onClick={() => this.markForToday(patient.id)}> Mark </button>
+                                        </th>
                                     </tr>
                             )
                             }

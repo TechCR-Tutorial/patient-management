@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,12 +30,11 @@ public class DailyPatientRegisterController {
     @Autowired
     private DailyPatientService dailyPatientService;
 
-    @GetMapping("/{phoneNo}/{firstName}/{lastName}")
-    public ResponseEntity<List<Patient>> getPatient(@PathVariable String phoneNo,
-                                    @PathVariable String firstName,
-                                    @PathVariable String lastName) {
+    @GetMapping("/{phoneNo}/{firstName}/{lastName}/{address}")
+    public ResponseEntity<List<Patient>> getPatient(@PathVariable String phoneNo, @PathVariable String firstName,
+                                                    @PathVariable String lastName, @PathVariable String address) {
 
-        return ResponseEntity.ok(patientManagementService.findPatient(phoneNo, firstName, lastName));
+        return ResponseEntity.ok(patientManagementService.findPatient(phoneNo, firstName, lastName, address));
     }
 
     @PostMapping
@@ -63,6 +63,12 @@ public class DailyPatientRegisterController {
     @PostMapping("/reports")
     public ResponseEntity<List<DailyPatient>> reportForDate(@RequestBody Report report) {
         return ResponseEntity.ok(dailyPatientService.findForReport(report));
+    }
+
+    @DeleteMapping("/reports/{id}")
+    public ResponseEntity deleteRegistryEntry(@PathVariable long id) {
+        dailyPatientService.deleteRegisterEntry(id);
+        return ResponseEntity.ok(id);
     }
 
 

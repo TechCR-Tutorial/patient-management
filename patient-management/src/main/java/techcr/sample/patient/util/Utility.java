@@ -3,6 +3,9 @@ package techcr.sample.patient.util;
 public class Utility {
 
     public static String formatForDB(String string) {
+        if (!isEmpty(string) && string.length() == 1 && string.contains("*")) {
+            string = string.replace("*", "");
+        }
         return nvlEmpty(string).toUpperCase();
     }
 

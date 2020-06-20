@@ -41,6 +41,14 @@ export default class Report extends Component {
             })
     }
 
+    deleteEntry = (datePatientId) => {
+        server.deleteDayPatient(datePatientId)
+            .then(response => {
+                console.log(`record deleted ${datePatientId}`)
+                this.searchReports()
+            })
+    }
+
     render() {
         return (
             <div>
@@ -89,6 +97,9 @@ export default class Report extends Component {
                                         <th scope="col"> {datePatient.patient.firstName} </th>
                                         <th scope="col"> {datePatient.patient.lastName} </th>
                                         <th scope="col"> {datePatient.patient.address} </th>
+                                        <th scope="col"> <button className="btn btn-secondary"
+                                            onClick={() => this.deleteEntry(datePatient.id)}> Delete </button>
+                                        </th>
                                     </tr>
                             )
                             }

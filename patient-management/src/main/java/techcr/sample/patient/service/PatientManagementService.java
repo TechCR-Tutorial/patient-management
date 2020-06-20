@@ -18,12 +18,15 @@ public class PatientManagementService {
     @Autowired
     private PatientManagementRepository patientManagementRepository;
 
-    public List<Patient> findPatient(String phoneNo, String firstName, String lastName) {
+    public List<Patient> findPatient(String phoneNo, String firstName, String lastName, String address) {
+        if (phoneNo.contains("*")) {
+            phoneNo = phoneNo.replace("*", "");
+        }
         if (!Utility.isEmpty(phoneNo) && !phoneNo.startsWith("0")) {
             phoneNo = "0" + phoneNo;
         }
-        return patientManagementRepository.findByDetails(Utility.nvlEmpty(phoneNo), Utility.formatForDB(firstName),
-            Utility.formatForDB(lastName));
+        return patientManagementRepository.findByDetails(Utility.formatForDB(phoneNo), Utility.formatForDB(firstName),
+            Utility.formatForDB(lastName), Utility.formatForDB(address));
     }
 
     public Patient addPatient(Patient patient) {
@@ -33,5 +36,10 @@ public class PatientManagementService {
 
     public Optional<Patient> findByID(Long id) {
         return patientManagementRepository.findById(id);
+    }
+
+    public static void main(String[] args) {
+        String replace = "C*".replace("*", "");
+        System.out.println(replace);
     }
 }
